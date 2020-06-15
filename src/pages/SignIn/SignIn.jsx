@@ -25,10 +25,6 @@ const SignInPage = () => (
 );
 
 class SignInForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     onSubmit = (event) => {};
 
     onChange = (event) => {};
