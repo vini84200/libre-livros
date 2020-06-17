@@ -31,8 +31,16 @@ function* doLogin(action) {
     }
 }
 
+function* doLogout() {
+    try {
+        yield apply(fb, fb.doSignOut);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 export default function* saga() {
     yield takeLatest(types.REQUEST_LOGIN_DEFAULT, doLogin);
-
+    yield takeLatest(types.REQUEST_LOGOUT, doLogout);
     // yield fork();
 }

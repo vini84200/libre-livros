@@ -1,9 +1,10 @@
 import { types } from "./actions";
 
+export const ANONYMOUS_USER = {
+    isAnonymous: true,
+};
 const INITIAL_STATE = {
-    user: {
-        isAnonymous: true,
-    },
+    user: ANONYMOUS_USER,
     loading: false,
     err: {},
 };

@@ -3,6 +3,7 @@ import app from "firebase/app";
 import "firebase/auth";
 import store from "../app";
 import { actions as userActions } from "../features/user/actions";
+import { ANONYMOUS_USER } from "../features/user/reducer";
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -14,6 +15,10 @@ const config = {
 };
 
 function onAuthStateChanged(user) {
+    if (!user) {
+        store.dispatch(userActions.loginStateChanged(ANONYMOUS_USER));
+        return;
+    }
     store.dispatch(userActions.loginStateChanged(user));
 }
 
