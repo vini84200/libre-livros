@@ -7,7 +7,7 @@ function* helloWorld() {
     try {
         // do api call
         // const user = yield call(Api.fetchUser, action.payload.userId);
-        yield put(actions.recieveHelloWorld("Hello World!"));
+        yield put(actions.recieveHelloWorld("Ola mundo!"));
     } catch (e) {
         yield put(actions.recieveHelloWorld("Errored Hellow World!"));
     }

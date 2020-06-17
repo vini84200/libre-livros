@@ -15,6 +15,7 @@ class Firebase {
     constructor() {
         app.initializeApp(config);
         this.auth = app.auth();
+        console.log("Created Firebase Connector");
     }
     // *** Auth API ***
 
@@ -34,6 +35,19 @@ class Firebase {
 
 const FirebaseContext = React.createContext(null);
 
+const authErrors = (code) => {
+    const list = {
+        "auth/user-not-found": "O usuario não foi encontrado.",
+        "auth/wrong-password": "A senha está incorreta.",
+    };
+    if (list[code]) {
+        return list[code];
+    }
+    return `Errosd desconhecido:${code}`;
+};
+
 export default Firebase;
 
-export { FirebaseContext };
+const fb = new Firebase();
+
+export { FirebaseContext, fb, authErrors };

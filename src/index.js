@@ -7,11 +7,11 @@ import * as serviceWorker from "./serviceWorker";
 
 import "./styles/index.css";
 
-import Firebase, { FirebaseContext } from "./utils/firebaseUtils";
+import { FirebaseContext, fb } from "./utils/firebaseUtils";
 
 ReactDOM.render(
     <React.StrictMode>
-        <FirebaseContext.Provider value={new Firebase()}>
+        <FirebaseContext.Provider value={fb}>
             <Store>
                 <App />
             </Store>

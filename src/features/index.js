@@ -4,12 +4,15 @@ import counterReducer from "./counter/reducer";
 
 import helloWorldReducer from "./hello_world/reducer";
 import helloWorldSaga from "./hello_world/saga";
+import userReducer from "./user/reducer";
+import userSaga from "./user/saga";
 
 export const rootReducer = {
     counter: counterReducer,
     hello_world: helloWorldReducer,
+    user: userReducer,
 };
 
 export function* rootSaga() {
-    yield all([helloWorldSaga()]);
+    yield all([helloWorldSaga(), userSaga()]);
 }
