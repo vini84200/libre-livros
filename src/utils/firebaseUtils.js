@@ -1,6 +1,8 @@
 import React from "react";
 import app from "firebase/app";
 import "firebase/auth";
+import store from "../app";
+import { actions as userActions } from "../features/user/actions";
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -11,12 +13,18 @@ const config = {
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
 };
 
+function onAuthStateChanged(user) {
+    store.dispatch(userActions.loginStateChanged(user));
+}
+
 class Firebase {
     constructor() {
         app.initializeApp(config);
         this.auth = app.auth();
         console.log("Created Firebase Connector");
+        this.auth.onAuthStateChanged(onAuthStateChanged);
     }
+
     // *** Auth API ***
 
     doCreateUserWithEmailAndPassword = (email, password) =>

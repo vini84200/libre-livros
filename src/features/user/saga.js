@@ -1,4 +1,4 @@
-import { put, takeLatest, apply, fork } from "redux-saga/effects";
+import { put, takeLatest, apply, fork, take } from "redux-saga/effects";
 
 import { types, actions } from "./actions";
 import { fb, authErrors } from "../../utils/firebaseUtils";
@@ -12,9 +12,6 @@ function* doLogin(action) {
             action.payload.email,
             action.payload.password,
         ]);
-        console.log(user);
-
-        yield put(actions.successLogin(user));
     } catch (e) {
         if (e.code) {
             yield put(
@@ -36,5 +33,6 @@ function* doLogin(action) {
 
 export default function* saga() {
     yield takeLatest(types.REQUEST_LOGIN_DEFAULT, doLogin);
+
     // yield fork();
 }

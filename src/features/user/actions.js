@@ -6,6 +6,7 @@ export const types = {
     SUCCESS_LOGIN: "@user/success_login",
     RELOGIN: "@user/relogin",
     ERROR_LOGIN: "@user/error_login",
+    LOGIN_STATE_CHANGED: "@user/login_state_changed",
 };
 
 // const requestHelloWorld = () => action(types.REQUEST_HELLO_WORLD);
@@ -15,10 +16,12 @@ const requestLoginDefault = (email, password) =>
 const successLogin = (user) => action(types.SUCCESS_LOGIN, { user });
 const relogin = (user) => action(types.RELOGIN, { user });
 const errorLogin = (errors) => action(types.ERROR_LOGIN, { errors });
+const loginStateChanged = (user) => action(types.LOGIN_STATE_CHANGED, { user });
 
 export const actions = {
     requestLoginDefault,
     successLogin,
     errorLogin,
     relogin,
+    loginStateChanged,
 };

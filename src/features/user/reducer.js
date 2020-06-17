@@ -28,13 +28,14 @@ export default function reducer(state = INITIAL_STATE, action) {
                 loading: false,
                 err: action.payload.errors,
             };
-        case types.RELOGIN:
+        case types.LOGIN_STATE_CHANGED:
             return {
                 ...state,
                 loading: false,
                 errors: {},
-                user: action.payload.user.user,
+                user: action.payload.user,
             };
+
         default:
             return state;
     }
