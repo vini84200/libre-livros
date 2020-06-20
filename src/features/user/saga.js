@@ -1,4 +1,4 @@
-import { put, takeLatest, apply, fork, take } from "redux-saga/effects";
+import { put, takeLatest, apply } from "redux-saga/effects";
 
 import { types, actions } from "./actions";
 import { fb, authErrors } from "../../utils/firebaseUtils";
@@ -7,8 +7,7 @@ import { fb, authErrors } from "../../utils/firebaseUtils";
 function* doLogin(action) {
     try {
         // do api call
-        // const user = yield call(Api.fetchUser, action.payload.userId);
-        const user = yield apply(fb, fb.doSignInWithEmailAndPassword, [
+        yield apply(fb, fb.doSignInWithEmailAndPassword, [
             action.payload.email,
             action.payload.password,
         ]);
@@ -42,5 +41,4 @@ function* doLogout() {
 export default function* saga() {
     yield takeLatest(types.REQUEST_LOGIN_DEFAULT, doLogin);
     yield takeLatest(types.REQUEST_LOGOUT, doLogout);
-    // yield fork();
 }

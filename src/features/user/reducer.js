@@ -16,13 +16,6 @@ export default function reducer(state = INITIAL_STATE, action) {
                 ...state,
                 loading: true,
             };
-        case types.SUCCESS_LOGIN:
-            return {
-                ...state,
-                loading: false,
-                errors: {},
-                user: action.payload.user.user,
-            };
         case types.ERROR_LOGIN:
             return {
                 ...state,

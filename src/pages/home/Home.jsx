@@ -10,7 +10,9 @@ export default function Home() {
         <>
             <Navigation />
             <div className="container mx-auto bg-green-100 h-screen px-4 pt-5">
-                <h2>Olá, {user.display_name || user.email}</h2>
+                <h2 className="text-gray-700 font-semibold text-2xl">
+                    Bem vindo de volta, {user.display_name || user.email}
+                </h2>
             </div>
         </>
     );

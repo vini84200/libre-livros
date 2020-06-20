@@ -11,10 +11,10 @@ const SignInPage = () => (
         <div className="bg-green-600 lg:min-h-screen lg:flex lg:items-center p-8 sm:p-12">
             <div className="flex-grow">
                 <h1 className="text-white text-center text-2xl sm:text-5xl">
-                    Seja bem-vindo(a)
+                    Seja bem-vindo(a)!
                 </h1>
                 <p className="text-center text-blue-200 sm:text-lg">
-                    Entre para começar
+                    Entre para começar...
                 </p>
             </div>
         </div>
@@ -31,6 +31,7 @@ const signInSchema = Yup.object().shape({
     email: Yup.string()
         .email("Deve ser um email válido.")
         .required("Este campo é obrigatório."),
+    password: Yup.string().required("Precisamos de sua senha..."),
 });
 
 function SignInForm() {
@@ -47,10 +48,11 @@ function SignInForm() {
         <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={signInSchema}
-            onSubmit={(values) => {
+            onSubmit={(values, acts) => {
                 dispatch(
                     actions.requestLoginDefault(values.email, values.password)
                 );
+                acts.setSubmitting(false);
             }}
         >
             {({
