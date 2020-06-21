@@ -5,5 +5,10 @@
     "css.validate": false,
     "eslint.packageManager": "yarn",
     "eslint.validate": ["javascript", "javascriptreact"],
-    "eslint.workingDirectories": [{ "mode": "auto" }]
+    "eslint.workingDirectories": [
+        {
+            "mode": "auto"
+        }
+    ],
+    "mpm.enabled": false
 }

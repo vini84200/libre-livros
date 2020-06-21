@@ -46,6 +46,7 @@ function LoginLogoutButton() {
         <li className="mx-5 text-lg text-gray-100">
             <button
                 type="button"
+                className="mx-5 text-lg text-gray-100 rounded-full border border-gray-100 px-4 bg-green-800"
                 onClick={() => {
                     dispatch(actions.requestLogout());
                 }}

@@ -1,4 +1,4 @@
-import { put, takeLatest, apply } from "redux-saga/effects";
+import { put, takeLatest, apply, take, fork, call } from "redux-saga/effects";
 
 import { types, actions } from "./actions";
 import { fb, authErrors } from "../../utils/firebaseUtils";
@@ -38,7 +38,27 @@ function* doLogout() {
     }
 }
 
+function* changeDisplayName() {
+    while (true) {
+        try {
+            const action = yield take(types.REQUEST_CHANGE_DISPLAYNAME);
+            const user = fb.auth.currentUser;
+            if (user != null) {
+                yield apply(user, user.updateProfile, [
+                    {
+                        displayName: action.payload.newName,
+                    },
+                ]);
+                yield put(actions.changeDisplayName(action.payload.newName));
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}
+
 export default function* saga() {
     yield takeLatest(types.REQUEST_LOGIN_DEFAULT, doLogin);
     yield takeLatest(types.REQUEST_LOGOUT, doLogout);
+    yield fork(changeDisplayName);
 }

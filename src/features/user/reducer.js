@@ -29,6 +29,14 @@ export default function reducer(state = INITIAL_STATE, action) {
                 errors: {},
                 user: action.payload.user,
             };
+        case types.CHANGE_DISPLAYNAME:
+            return {
+                ...state,
+                // user: {
+                //    ...state.user,
+                // displayName: action.payload.newName,
+                // },
+            };
 
         default:
             return state;
