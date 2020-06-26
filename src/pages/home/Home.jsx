@@ -44,11 +44,14 @@ function Greetings() {
             ) : (
                 <Formik
                     initialValues={{
-                        displayName: user.displayName || user.email,
+                        displayName: "",
                     }}
+                    validationSchema={displayNameSchema}
                     onSubmit={(values, acts) => {
                         dispatch(
-                            actions.requsetChangeDisplayName(values.displayName)
+                            actions.displayNameActions.requsetChangeDisplayName(
+                                values.displayName
+                            )
                         );
 
                         acts.setSubmitting(false);
