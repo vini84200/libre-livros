@@ -8,7 +8,7 @@ export default function Navigation() {
     return (
         <div className="bg-green-400 shadow-lg flex flex-row justify-between">
             <ul className="flex py-5 font-semibold">
-                <PageLink link={ROUTES.LANDING} title="Home" />
+                <HomePageLink />
             </ul>
             <ul className="flex py-5 font-semibold ">
                 <LoginLogoutButton />
@@ -30,6 +30,14 @@ function LoggedOnlyPageLink({ link, title }) {
     if (user.isAnonymous) {
         return <PageLink link={link} title={title} />;
     }
+}
+
+function HomePageLink() {
+    const { user } = useSelector((state) => state.user);
+    if (user.isAnonymous) {
+        return <PageLink link={ROUTES.LANDING} title="Home" />;
+    }
+    return <PageLink link={ROUTES.HOME} title="Home" />;
 }
 
 function LoginLogoutButton() {
