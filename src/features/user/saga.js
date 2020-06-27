@@ -1,27 +1,29 @@
-import { put, takeLatest, apply, take, fork, call } from "redux-saga/effects";
+import { put, takeLatest, take, fork, call } from "redux-saga/effects";
 
 import { types, actions } from "./actions";
-import { fb, authErrors } from "../../utils/firebaseUtils";
+import { rsf, authErrors } from "../../utils/firebaseUtils";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
+//  *** LOGIN and LOGOUT ***
+
 function* doLogin(action) {
     try {
-        // do api call
-        yield apply(fb, fb.doSignInWithEmailAndPassword, [
+        yield call(
+            rsf.auth.signInWithEmailAndPassword,
             action.payload.email,
-            action.payload.password,
-        ]);
+            action.payload.password
+        );
+        // successful login will trigger the loginStatusWatcher, which will update the state
     } catch (e) {
         if (e.code) {
             yield put(
-                actions.errorLogin({
+                actions.loginActions.errorLogin({
                     ...e,
                     message: authErrors(e.code),
                 })
             );
         } else {
             yield put(
-                actions.errorLogin({
+                actions.loginActions.errorLogin({
                     ...e,
                     message: `Erro desconhecido:${String(e)}`,
                 })
@@ -32,33 +34,50 @@ function* doLogin(action) {
 
 function* doLogout() {
     try {
-        yield apply(fb, fb.doSignOut);
+        yield call(rsf.auth.signOut);
+        // successful login will trigger the loginStatusWatcher, which will update the state
     } catch (e) {
-        console.error(e);
+        yield put(actions.logoutActions.errorLogout(e));
     }
 }
+
+function* loginStatusWatcher() {
+    const channel = yield call(rsf.auth.channel);
+
+    while (true) {
+        const { user } = yield take(channel);
+
+        if (user) yield put(actions.loginActions.successLogin(user));
+        else yield put(actions.logoutActions.successLogout());
+    }
+}
+
+//  *** CHANGE DISPLAY NAME ***
 
 function* changeDisplayName() {
     while (true) {
         try {
-            const action = yield take(types.REQUEST_CHANGE_DISPLAYNAME);
-            const user = fb.auth.currentUser;
-            if (user != null) {
-                yield apply(user, user.updateProfile, [
-                    {
-                        displayName: action.payload.newName,
-                    },
-                ]);
-                yield put(actions.changeDisplayName(action.payload.newName));
-            }
+            const action = yield take(types.DISPLAY_NAME.REQUEST_CHANGE);
+
+            yield call(rsf.auth.updateProfile, {
+                displayName: action.payload.newName,
+            });
+            yield put(
+                actions.displayNameActions.successChangeDisplayName(
+                    action.payload.newName
+                )
+            );
         } catch (e) {
-            console.error(e);
+            actions.displayNameActions.errorChangeDisplayName(e);
         }
     }
 }
 
+//  *** MAIN SAGA FOR USER ACTIONS ***
+
 export default function* saga() {
-    yield takeLatest(types.REQUEST_LOGIN_DEFAULT, doLogin);
-    yield takeLatest(types.REQUEST_LOGOUT, doLogout);
+    yield takeLatest(types.LOGIN.REQUEST_USERNAME_PASSWORD, doLogin);
+    yield takeLatest(types.LOGOUT.REQUEST, doLogout);
+    yield fork(loginStatusWatcher);
     yield fork(changeDisplayName);
 }

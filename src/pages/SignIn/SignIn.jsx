@@ -50,7 +50,10 @@ function SignInForm() {
             validationSchema={signInSchema}
             onSubmit={(values, acts) => {
                 dispatch(
-                    actions.requestLoginDefault(values.email, values.password)
+                    actions.loginActions.requestLoginDefault(
+                        values.email,
+                        values.password
+                    )
                 );
                 acts.setSubmitting(false);
             }}
@@ -102,7 +105,11 @@ function SignInForm() {
                     >
                         Entrar
                     </button>
-                    {err && <span className="text-red-600">{err.message}</span>}
+                    {err.login && (
+                        <span className="text-red-600">
+                            {err.login.message}
+                        </span>
+                    )}
                 </form>
             )}
         </Formik>

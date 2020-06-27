@@ -6,36 +6,55 @@ export const ANONYMOUS_USER = {
 const INITIAL_STATE = {
     user: ANONYMOUS_USER,
     loading: false,
-    err: {},
+    err: {
+        login: null,
+        logout: null,
+        change_displayname: null,
+    },
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case types.REQUEST_LOGIN_DEFAULT:
+        case types.LOGIN.REQUEST_USERNAME_PASSWORD:
             return {
                 ...state,
                 loading: true,
+                errors: { ...state.err, login: null },
             };
-        case types.ERROR_LOGIN:
+        case types.LOGIN.ERROR:
             return {
                 ...state,
                 loading: false,
-                err: action.payload.errors,
+                err: { ...state.err, login: action.payload.errors },
             };
-        case types.LOGIN_STATE_CHANGED:
+        case types.LOGIN.SUCCESS:
             return {
                 ...state,
                 loading: false,
-                errors: {},
+                errors: { ...state.err, login: null },
                 user: action.payload.user,
             };
-        case types.CHANGE_DISPLAYNAME:
+        case types.LOGOUT.REQUEST:
             return {
                 ...state,
-                // user: {
-                //    ...state.user,
-                // displayName: action.payload.newName,
-                // },
+                loading: true,
+                errors: { ...state.err, logout: null },
+            };
+        case types.LOGOUT.SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: ANONYMOUS_USER,
+                errors: { ...state.err, logout: null },
+            };
+        case types.LOGOUT.ERROR:
+            return {
+                ...state,
+                errors: { ...state.err, logout: action.payload.errors },
+            };
+        case types.DISPLAY_NAME.SUCCESS_CHANGE:
+            return {
+                ...state,
             };
 
         default:
