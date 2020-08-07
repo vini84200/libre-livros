@@ -1,13 +1,8 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-
+import React, { useState } from "react";
 import Navigation from "../../components/Navigation";
 
-import { actions } from "../../features/hello_world/actions";
-
 export default function Landing() {
-    const helloWorld = useSelector((state) => state.hello_world);
-    const dispatch = useDispatch();
+    const [helloWorld, setHelloWorld] = useState("Inicio");
 
     return (
         <>
@@ -17,7 +12,7 @@ export default function Landing() {
                 <button
                     type="button"
                     onClick={() => {
-                        dispatch(actions.requestHelloWorld());
+                        setHelloWorld("Hello World");
                     }}
                     className="btn btn-teal"
                 >

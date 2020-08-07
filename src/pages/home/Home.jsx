@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { useSelector, useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { FiCheck, FiX, FiEdit3 } from "react-icons/fi";
+import { FiCheck, FiX, FiEdit3, FiAlertTriangle } from "react-icons/fi";
 import Navigation from "../../components/Navigation";
-import { actions } from "../../features/user/actions";
+import useUser from "../../hooks/useUser";
 
 export default function Home() {
     return (
@@ -18,12 +17,13 @@ export default function Home() {
 }
 
 const displayNameSchema = Yup.object().shape({
-    displayName: Yup.string().required().notOneOf(["admin"]),
+    displayName: Yup.string()
+        .required()
+        .notOneOf(["admin"], "Esta nome está reservado"),
 });
 
 function Greetings() {
-    const { user } = useSelector((state) => state.user);
-    const dispatch = useDispatch();
+    const [user, userApi] = useUser();
     const [editing, changeEditing] = useState(false);
 
     return (
@@ -44,16 +44,11 @@ function Greetings() {
             ) : (
                 <Formik
                     initialValues={{
-                        displayName: "",
+                        displayName: user.displayName || user.email,
                     }}
                     validationSchema={displayNameSchema}
                     onSubmit={(values, acts) => {
-                        dispatch(
-                            actions.displayNameActions.requsetChangeDisplayName(
-                                values.displayName
-                            )
-                        );
-
+                        userApi.changeUserName(values.displayName);
                         acts.setSubmitting(false);
                         changeEditing(false);
                     }}
@@ -67,32 +62,41 @@ function Greetings() {
                         handleSubmit,
                         isSubmitting,
                     }) => (
-                        <form
-                            className={`border-b-2 border-gray-400 w-auto inline ${
-                                errors.displayName
-                                    ? "focus-within:border-red-500"
-                                    : "focus-within:border-green-500"
-                            }`}
-                            onSubmit={handleSubmit}
-                        >
-                            <input
-                                type="text"
-                                className="appearance-none bg-transparent text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                                name="displayName"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.email}
-                            />
-                            <button type="submit">
-                                <FiCheck />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => changeEditing(false)}
+                        <>
+                            <form
+                                className={`border-b-2 border-gray-400 w-full inline ${
+                                    errors.displayName
+                                        ? "focus-within:border-red-500"
+                                        : "focus-within:border-green-500"
+                                }`}
+                                onSubmit={handleSubmit}
                             >
-                                <FiX />
-                            </button>
-                        </form>
+                                <input
+                                    type="text"
+                                    className="appearance-none bg-transparent text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                                    name="displayName"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.displayName}
+                                />
+
+                                <button type="submit">
+                                    <FiCheck />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => changeEditing(false)}
+                                >
+                                    <FiX />
+                                </button>
+                                {errors.displayName && (
+                                    <span className="text-xs text-red-700 flex flex-row">
+                                        <FiAlertTriangle className="mr-4" />{" "}
+                                        {errors.displayName}
+                                    </span>
+                                )}
+                            </form>
+                        </>
                     )}
                 </Formik>
             )}

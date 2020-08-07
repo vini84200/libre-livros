@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 // Paginas
 
 import Home from "./pages/home";
@@ -10,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import * as ROUTES from "./constants/routes";
 import "./App.css";
 import Landing from "./pages/landing";
+import useUser from "./hooks/useUser";
 
 function App() {
     return (
@@ -25,7 +25,7 @@ function App() {
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-    const { isAnonymous } = useSelector((state) => state.user.user);
+    const [{ isAnonymous }] = useUser();
     return (
         <Route
             {...rest}
@@ -41,7 +41,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 
 const LoginRoute = ({ component: Component, ...rest }) => {
-    const { isAnonymous } = useSelector((state) => state.user.user);
+    const [{ isAnonymous }] = useUser();
     return (
         <Route
             {...rest}

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
-import { actions } from "../../features/user/actions";
+import useUser from "../../hooks/useUser";
 
 const SignInPage = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -35,8 +34,7 @@ const signInSchema = Yup.object().shape({
 });
 
 function SignInForm() {
-    const { user, loading, err } = useSelector((state) => state.user);
-    const dispatch = useDispatch();
+    const [user, userApi, { loading, err }] = useUser();
     const history = useHistory();
 
     useEffect(() => {
@@ -44,17 +42,13 @@ function SignInForm() {
             history.push(ROUTES.HOME);
         }
     }, [user, history]);
+
     return (
         <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={signInSchema}
             onSubmit={(values, acts) => {
-                dispatch(
-                    actions.loginActions.requestLoginDefault(
-                        values.email,
-                        values.password
-                    )
-                );
+                userApi.login(values.email, values.password);
                 acts.setSubmitting(false);
             }}
         >
