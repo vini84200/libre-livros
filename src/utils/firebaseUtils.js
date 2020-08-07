@@ -1,6 +1,4 @@
-import React from "react";
 import app from "firebase/app";
-import ReduxSagaFirebase from "redux-saga-firebase";
 import "firebase/auth";
 
 const config = {
@@ -13,9 +11,6 @@ const config = {
 };
 
 const fbApp = app.initializeApp(config);
-const rsf = new ReduxSagaFirebase(fbApp);
-
-const FirebaseContext = React.createContext(null);
 
 const authErrors = (code) => {
     const list = {
@@ -30,4 +25,4 @@ const authErrors = (code) => {
 
 export default app;
 
-export { FirebaseContext, fbApp, authErrors, rsf };
+export { fbApp, authErrors };

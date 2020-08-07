@@ -2,20 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
-import Store from "./app/Store";
 import * as serviceWorker from "./serviceWorker";
 
 import "./styles/index.css";
 
-import { FirebaseContext, fbApp } from "./utils/firebaseUtils";
+import { ProvideAuth } from "./hooks/useUser";
 
 ReactDOM.render(
     <React.StrictMode>
-        <FirebaseContext.Provider value={fbApp}>
-            <Store>
-                <App />
-            </Store>
-        </FirebaseContext.Provider>
+        <ProvideAuth>
+            <App />
+        </ProvideAuth>
     </React.StrictMode>,
     document.getElementById("root")
 );
