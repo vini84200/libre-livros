@@ -5,7 +5,7 @@ import useUser from "../../hooks/useUser";
 
 export default function Navigation() {
     return (
-        <div className="bg-green-400 shadow-lg flex flex-row justify-between">
+        <div className="bg-green-400 flex flex-row justify-between">
             <ul className="flex py-5 font-semibold">
                 <HomePageLink />
             </ul>

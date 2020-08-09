@@ -4,15 +4,70 @@ import * as Yup from "yup";
 import { FiCheck, FiX, FiEdit3, FiAlertTriangle } from "react-icons/fi";
 import Navigation from "../../components/Navigation";
 import useUser from "../../hooks/useUser";
+import BookItem from "../../components/atoms/BookItem/BookItem";
+import BookLine from "../../components/molecules/BookLine/BookLine";
 
 export default function Home() {
     return (
-        <>
+        <div className="h-screen flex flex-col">
             <Navigation />
-            <div className="container mx-auto bg-green-100 h-screen px-4 pt-5">
+            <div className="container mx-auto bg-green-100 flex-1 px-4 pt-5">
                 <Greetings />
+                <BookLine
+                    title="Adicionados Recentemente"
+                    books={[
+                        {
+                            cover:
+                                "https://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=4074748&qld=90&l=830&a=-1=1007943217",
+                            title: "Rapido e Devagar",
+                            autor: { nome: "Danel Kanheman" },
+                            id: "ReD",
+                        },
+                        {
+                            cover:
+                                "https://images-na.ssl-images-amazon.com/images/I/81TJkqGyhwL.jpg",
+                            title: "O nome do Vento",
+                            autor: { nome: "Patrick Rothfuss" },
+                            id: "NdV",
+                        },
+                        {
+                            cover:
+                                "https://images-na.ssl-images-amazon.com/images/I/71RQH+oKc6L.jpg",
+                            title: "Temor do sábio",
+                            autor: { nome: "Patrick Rothfuss" },
+                            id: "TdS",
+                        },
+                    ]}
+                />
+
+                <BookLine
+                    title="Sua Biblioteca"
+                    books={[
+                        {
+                            cover:
+                                "https://images-na.ssl-images-amazon.com/images/I/71RQH+oKc6L.jpg",
+                            title: "Temor do sábio",
+                            autor: { nome: "Patrick Rothfuss" },
+                            id: "TdS",
+                        },
+                        {
+                            cover:
+                                "https://images-na.ssl-images-amazon.com/images/I/81TJkqGyhwL.jpg",
+                            title: "O nome do Vento",
+                            autor: { nome: "Patrick Rothfuss" },
+                            id: "NdV",
+                        },
+                        {
+                            cover:
+                                "https://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=4074748&qld=90&l=830&a=-1=1007943217",
+                            title: "Rapido e Devagar",
+                            autor: { nome: "Danel Kanheman" },
+                            id: "ReD",
+                        },
+                    ]}
+                />
             </div>
-        </>
+        </div>
     );
 }
 
