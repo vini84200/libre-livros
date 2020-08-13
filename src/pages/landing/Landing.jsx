@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navigation from "../../components/Navigation";
+import TodosLivros from "../../components/organisms/TodosLivros/TodosLivros";
 
 export default function Landing() {
     const [helloWorld, setHelloWorld] = useState("Inicio");
@@ -18,6 +19,7 @@ export default function Landing() {
                 >
                     Send
                 </button>
+                <TodosLivros />
             </div>
         </>
     );

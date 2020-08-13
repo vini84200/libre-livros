@@ -21,4 +21,14 @@ body {
     @apply bg-green-100;
 }
 
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    scroll-behavior: smooth;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 @import "tailwindcss/utilities";
